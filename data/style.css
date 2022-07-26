@@ -1,0 +1,27 @@
+h1 {
+  font-size: 1.8rem; 
+  color: #fff;
+}
+.topnav { 
+  overflow: hidden; 
+  background-color: #0A1128;
+  text-align: center;
+}
+.update-link {
+  color: #fff;
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+}
+footer {
+  background-color: #0A1128;
+  color: #aaa;
+  font-size: 75%;
+  text-align: center;
+  margin-top: .25rem;
+  margin-bottom: .25rem;
+}
+footer p {
+  margin: 0;
+  padding: .25rem;
+}

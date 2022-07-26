@@ -5,13 +5,34 @@
 
 /** Nastavenia a ich popis
  *
- * Posledná zmena(Last change): 12.07.2022
+ * Posledná zmena(Last change): 25.07.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2022 - 2022 Ing. Peter VOJTECH ml.
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
+
+/** Nastavenia Wifi */
+#define WIFI_SSID "xxxxxxx"
+#define WIFI_PASSWORD "xxxxxxxx"
+
+/** ------ Nastavenia MQTT ------- */
+// Nastavenia broker-a
+#define MQTT_ENBLED true // Celkové povolenie MQTT
+#define MQTT_HOST IPAddress(192, 168, 0, 101)
+#define MQTT_PORT 1883
+#define MQTT_USER "xxxxxx"
+#define MQTT_PASSWORD "xxxxxx"
+
+// Nastavenie topic
+const char *topic_meteo_status = "zahradka/meteo/status"; // Publikácia dát meteostanice
+const char *topic_meteo_last = "zahradka/meteo/last";     // Výzva na publikáciu posledných údajov
+/* ------- Nastavenia MQTT - Koniec ------- */
+
+/** Prihlasovanie do OTA(AsyncElegantOTA) pre update firmware */
+#define OTA_USER "xxxxxx"
+#define OTA_PASSWORD "xxxxxx"
 
 /** Ostaté Nastavenia */
 #define SERIAL_PORT_ENABLED false // Povolenie výstupu na sériový port - logovanie

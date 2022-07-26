@@ -13,3 +13,5 @@ Cez rozhranie LoRa je posielaná informácia o teplote a vlhkosti každých 60s(
 ## Zdroje
 
 - [ESP32 with LoRa using Arduino IDE – Getting Started](https://randomnerdtutorials.com/esp32-lora-rfm95-transceiver-arduino-ide/)
+- [LoRa](https://lora.readthedocs.io/en/latest/#)
+- [iAntenna length for 868 and 433 MHz](https://www.thethingsnetwork.org/forum/t/antenna-length-for-868-and-433-mhz/5378)

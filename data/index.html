@@ -1,0 +1,74 @@
+<!DOCTYPE HTML><html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <title>ESP Meteostanica</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="icon"  type="image/png" href="favicon.ico">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+<body>
+  <div class="topnav">
+    <h1>Meteostanica</h1>
+    <a href="/update" class="update-link">Update firmware</a>
+  </div>
+  <div class="container-lg">
+    <div class="row justify-content-center">
+      <div class="col-12 my-4 text-center">
+        Čas posledného metania: 
+        <strong id="last_time">xx:xx:xx xx.xx.2022</strong>
+      </div>
+      <div class="col-12 col-md-6">
+        <div id="mqtt" class="alert alert-danger text-center" role="alert">
+          MQTT_DISCONNECTED - the client is disconnected...
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Veličina</th>
+              <th>Hodnota</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td>Teplota:</td>
+              <td id="TE">xx.xx °C</td>
+            </tr>
+            <tr>
+              <td>Vlhkosť:</td>
+              <td id="HU">xx.xx %</td>
+            </tr>
+            <tr>
+              <td>Absolútny tlak:</td>
+              <td id="AP">xx.xx hPa</td>
+            </tr>
+            <tr>
+              <td>Tlak na hladinu mora:</td>
+              <td id="RP">xx.xx hPa</td>
+            </tr>
+            <tr>
+              <td>Nadmorská výška:</td>
+              <td id="AL">xx m.n.m</td>
+            </tr>
+            <tr>
+              <td>Signál:</td>
+              <td id="RSSI">-xx dBm (xx %)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <p>&copy; petak23 2022 - ESP 32 WEB SERVER </p>
+  </footer>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/script.js"></script>
+</body>
+</html>
