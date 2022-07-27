@@ -25,3 +25,14 @@ footer p {
   margin: 0;
   padding: .25rem;
 }
+.rssi-lo {
+  background-color: rgb(170, 17, 17) !important;
+  color: #fff;
+}
+.rssi-mi {
+  background-color: rgb(238, 190, 57) !important;
+}
+.rssi-hi {
+  background-color: rgb(17, 170, 25) !important;
+  color: #fff;
+}

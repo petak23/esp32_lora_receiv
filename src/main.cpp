@@ -14,12 +14,12 @@
 /**
  * Program pre LoRa komunikáciu pomocou ESP32 - prijímač
  *
- * Posledná zmena(last change): 26.07.2022
+ * Posledná zmena(last change): 27.07.2022
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2022 - 2022 Ing. Peter VOJTECH ml.
- * @license
+ * @license GNU-GPL
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 // Inicializácia espClient.
@@ -50,6 +50,7 @@ String getOutputStates()
   myArray["rssi"] = rssi;
 
   myArray["mqtt"] = String(mqtt_state);
+  myArray["time"] = millis();
 
   String jsonString = JSON.stringify(myArray);
   return jsonString;

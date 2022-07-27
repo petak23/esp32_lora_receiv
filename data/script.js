@@ -47,10 +47,15 @@ function onMessage(event) {
     st.innerHTML = out[1] + " " + units[out[0]];
   }
   let rssi = document.getElementById("RSSI");
-  console.log(rssi);
-  rssi.innerHTML = myObj.rssi + " dBm (" + parseInt((10 / 9) * (myObj.rssi + 120)) + "%)";
+  let perc = parseInt((10 / 9) * (myObj.rssi + 120));
+  rssi.innerHTML = myObj.rssi + " dBm (" + perc + "%)";
+  rssi.classList.remove("rssi-lo", "rssi-mi", "rssi-hi");
+  rssi.classList.add(perc < 40 ? "rssi-lo" : (perc < 75 ? "rssi-mi" : "rssi-hi"));
 
   let last_time = document.getElementById("last_time");
-  const d = new Date();
-  last_time.innerHTML = d.getDay() + "." + d.getMonth() + "." + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+  let d = parseInt(myObj.time / 1000);
+  let s = parseInt(d % 60);      // Sekundy
+  let m = parseInt(d / 60) % 60; // Minúty
+  let h = parseInt(d / 3600);    // hodiny
+  last_time.innerHTML = (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
 }
