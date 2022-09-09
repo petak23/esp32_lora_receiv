@@ -9,17 +9,18 @@
 #include <AsyncMqttClient.h>
 #include <SPI.h>
 #include <LoRa.h>
+#include "pv_crypt.h"
 #include "definitions.h"
 
 /**
  * Program pre LoRa komunikáciu pomocou ESP32 - prijímač
  *
- * Posledná zmena(last change): 27.07.2022
+ * Posledná zmena(last change): 09.09.2022
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2022 - 2022 Ing. Peter VOJTECH ml.
  * @license GNU-GPL
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 // Inicializácia espClient.
@@ -39,14 +40,35 @@ AsyncWebServer server(80);
 // Create a WebSocket object
 AsyncWebSocket ws("/ws");
 
+pvCrypt *pv_crypr = new pvCrypt();
+
 /* Konverzia výstupov do JSON-u */
 String getOutputStates()
 {
   JSONVar myArray;
+  String dectext = "";
   if (LoRaData.length() > 0)
   {
-    myArray["lora"] = LoRaData;
+    int delimiter_pos = LoRaData.indexOf(':');
+    String enc_message = LoRaData.substring(delimiter_pos + 1, LoRaData.length());
+    char *itemName = (char *)"BMP280";
+    char enc_text[256];
+    enc_message.toCharArray(enc_text, 256);
+
+    dectext = pv_crypr->decrypt(itemName, enc_text);
+
+#if SERIAL_PORT_ENABLED
+    if (!dectext.startsWith("#Err"))
+    {
+      Serial.println("Dekódovaná správa: '" + dectext + "'");
+    }
+    else
+    {
+      Serial.println("Pri dekódovaní došlo k chybe");
+    }
+#endif
   }
+  myArray["lora"] = dectext;
   myArray["rssi"] = rssi;
 
   myArray["mqtt"] = String(mqtt_state);
@@ -63,9 +85,7 @@ void notifyClients(String state)
 
 void onLoRaData()
 {
-  String out = getOutputStates(); // LoRaData + ";RS:";
-
-  // out.concat(rssi);
+  String out = getOutputStates();
   int l_m = out.length() + 1;
   char tmp_m[l_m];
   out.toCharArray(tmp_m, l_m);
@@ -223,17 +243,15 @@ void onMqttMessage(char *topic, char *payload, AsyncMqttClientMessageProperties 
   // Ak príde správa s topic začínajúcim na main_topic_switch, tak zistím obsah správy a spracujem
   if (topicTmp.startsWith(topic_meteo_last))
   {
-    // int topic_length = topicTmp.length() - 1;
-    // String lamp_id = topicTmp.substring(topic_length);
-    // int id_lamp = lamp_id.toInt();
-    // byte state = messageTemp == "on" ? 1 : 0;
-    // changeLight(id_lamp, state);
     notifyClients(getOutputStates());
   }
 }
 
 void setup()
 {
+#if SERIAL_PORT_ENABLED
+  delay(5000);
+#endif
   // initialize Serial Monitor
   Serial.begin(115200);
   while (!Serial)
@@ -277,6 +295,8 @@ void setup()
 
   AsyncElegantOTA.begin(&server, OTA_USER, OTA_PASSWORD); // Štart ElegantOTA s autentifikáciou https://github.com/ayushsharma82/AsyncElegantOTA
   server.begin();                                         // Start server
+
+  pv_crypr->setInfo((char *)DEVICE_ID, (char *)PASS_PHRASE);
 }
 
 void loop()
@@ -287,17 +307,10 @@ void loop()
   {
     LoRaData = "";
     rssi = -120;
-#if SERIAL_PORT_ENABLED
-    // received a packet
-    Serial.print("Prijaté dáta: '");
-#endif
     // read packet
     while (LoRa.available())
     {
       LoRaData = LoRa.readString();
-#if SERIAL_PORT_ENABLED
-      Serial.print(LoRaData);
-#endif
     }
     rssi = LoRa.packetRssi();
     onLoRaData();
